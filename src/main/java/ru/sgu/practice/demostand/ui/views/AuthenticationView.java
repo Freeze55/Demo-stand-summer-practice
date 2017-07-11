@@ -32,8 +32,9 @@ public class AuthenticationView  extends VerticalLayout implements View{
                 if(MainUI.AUTH.authenticate(username.getValue(), password.getValue())){
                     VaadinSession.getCurrent().setAttribute("user", username.getValue());
 
-                    getUI().getNavigator().addView(TestView.NAME,TestView.class);
-                    getUI().getNavigator().navigateTo(TestView.NAME);
+                    //getUI().getNavigator().addView(TestView.NAME,TestView.class);
+                    //().getNavigator().navigateTo(TestView.NAME);
+                    MainUI.getCurrent().getNavigator().navigateTo(ContentView.NAME);
                 }else{
                     Notification.show("Неправильный логин/пароль!", Notification.Type.ERROR_MESSAGE);
                 }
