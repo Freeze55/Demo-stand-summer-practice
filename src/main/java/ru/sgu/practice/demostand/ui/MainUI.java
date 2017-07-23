@@ -8,6 +8,7 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.UI;
 import ru.sgu.practice.demostand.ui.authentication.Authentication;
+import ru.sgu.practice.demostand.ui.communication.Communication;
 import ru.sgu.practice.demostand.ui.views.AuthenticationView;
 import ru.sgu.practice.demostand.ui.views.ContentView;
 
@@ -23,19 +24,16 @@ public class MainUI extends UI {
 
     Navigator navigator;
     public static Authentication AUTH;
-
+    public static Communication COMMUNIC;
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
         AUTH = new Authentication();
+        COMMUNIC = new Communication();
         navigator = new Navigator(this, this);
 
         navigator.addView(AuthenticationView.NAME, AuthenticationView.class);
         navigator.addView(ContentView.NAME, ContentView.class);
-
-
-
-
 
     }
 }

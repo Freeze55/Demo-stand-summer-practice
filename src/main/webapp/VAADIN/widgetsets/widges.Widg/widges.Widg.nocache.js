@@ -1,5 +1,5 @@
 function widges_Widg(){
-  var $intern_0 = 'bootstrap', $intern_1 = 'begin', $intern_2 = 'gwt.codesvr.widges.Widg=', $intern_3 = 'gwt.codesvr=', $intern_4 = 'widges.Widg', $intern_5 = 'startup', $intern_6 = 'DUMMY', $intern_7 = 0, $intern_8 = 1, $intern_9 = 'iframe', $intern_10 = 'javascript:""', $intern_11 = 'position:absolute; width:0; height:0; border:none; left: -1000px;', $intern_12 = ' top: -1000px;', $intern_13 = 'CSS1Compat', $intern_14 = '<!doctype html>', $intern_15 = '', $intern_16 = '<html><head><\/head><body><\/body><\/html>', $intern_17 = 'undefined', $intern_18 = 'readystatechange', $intern_19 = 10, $intern_20 = 'script', $intern_21 = 'javascript', $intern_22 = 'widges_Widg', $intern_23 = 'Failed to load ', $intern_24 = 'moduleStartup', $intern_25 = 'scriptTagAdded', $intern_26 = 'moduleRequested', $intern_27 = 'meta', $intern_28 = 'name', $intern_29 = 'widges.Widg::', $intern_30 = '::', $intern_31 = 'gwt:property', $intern_32 = 'content', $intern_33 = '=', $intern_34 = 'gwt:onPropertyErrorFn', $intern_35 = 'Bad handler "', $intern_36 = '" for "gwt:onPropertyErrorFn"', $intern_37 = 'gwt:onLoadErrorFn', $intern_38 = '" for "gwt:onLoadErrorFn"', $intern_39 = '#', $intern_40 = '?', $intern_41 = '/', $intern_42 = 'img', $intern_43 = 'clear.cache.gif', $intern_44 = 'baseUrl', $intern_45 = 'widges.Widg.nocache.js', $intern_46 = 'base', $intern_47 = '//', $intern_48 = 'modernie', $intern_49 = 'MSIE', $intern_50 = 'Trident', $intern_51 = 'yes', $intern_52 = 'none', $intern_53 = 'selectingPermutation', $intern_54 = 'widges.Widg.devmode.js', $intern_55 = '26978E52A289B19A67B5559D1B5BC7FF', $intern_56 = ':', $intern_57 = '.cache.js', $intern_58 = 'loadExternalRefs', $intern_59 = 'end', $intern_60 = 'http:', $intern_61 = 'file:', $intern_62 = '_gwt_dummy_', $intern_63 = '__gwtDevModeHook:widges.Widg', $intern_64 = 'Ignoring non-whitelisted Dev Mode URL: ', $intern_65 = ':moduleBase', $intern_66 = 'head';
+  var $intern_0 = 'bootstrap', $intern_1 = 'begin', $intern_2 = 'gwt.codesvr.widges.Widg=', $intern_3 = 'gwt.codesvr=', $intern_4 = 'widges.Widg', $intern_5 = 'startup', $intern_6 = 'DUMMY', $intern_7 = 0, $intern_8 = 1, $intern_9 = 'iframe', $intern_10 = 'javascript:""', $intern_11 = 'position:absolute; width:0; height:0; border:none; left: -1000px;', $intern_12 = ' top: -1000px;', $intern_13 = 'CSS1Compat', $intern_14 = '<!doctype html>', $intern_15 = '', $intern_16 = '<html><head><\/head><body><\/body><\/html>', $intern_17 = 'undefined', $intern_18 = 'DOMContentLoaded', $intern_19 = 50, $intern_20 = 'script', $intern_21 = 'javascript', $intern_22 = 'widges_Widg', $intern_23 = 'Failed to load ', $intern_24 = 'moduleStartup', $intern_25 = 'scriptTagAdded', $intern_26 = 'moduleRequested', $intern_27 = 'meta', $intern_28 = 'name', $intern_29 = 'widges.Widg::', $intern_30 = '::', $intern_31 = 'gwt:property', $intern_32 = 'content', $intern_33 = '=', $intern_34 = 'gwt:onPropertyErrorFn', $intern_35 = 'Bad handler "', $intern_36 = '" for "gwt:onPropertyErrorFn"', $intern_37 = 'gwt:onLoadErrorFn', $intern_38 = '" for "gwt:onLoadErrorFn"', $intern_39 = '#', $intern_40 = '?', $intern_41 = '/', $intern_42 = 'img', $intern_43 = 'clear.cache.gif', $intern_44 = 'baseUrl', $intern_45 = 'widges.Widg.nocache.js', $intern_46 = 'base', $intern_47 = '//', $intern_48 = 'modernie', $intern_49 = 'MSIE', $intern_50 = 'Trident', $intern_51 = 'yes', $intern_52 = 'none', $intern_53 = 'selectingPermutation', $intern_54 = 'widges.Widg.devmode.js', $intern_55 = 'A2EDDA7101958936C75C5459C638138B', $intern_56 = ':', $intern_57 = 10, $intern_58 = '.cache.js', $intern_59 = 'loadExternalRefs', $intern_60 = 'end', $intern_61 = 'http:', $intern_62 = 'file:', $intern_63 = '_gwt_dummy_', $intern_64 = '__gwtDevModeHook:widges.Widg', $intern_65 = 'Ignoring non-whitelisted Dev Mode URL: ', $intern_66 = ':moduleBase', $intern_67 = 'head';
   var $wnd = window;
   var $doc = document;
   sendStats($intern_0, $intern_1);
@@ -93,15 +93,12 @@ function widges_Widg(){
         callback();
         return;
       }
-      function checkBodyDone(){
+      function onBodyDone(){
         if (!bodyDone) {
-          if (!isBodyLoaded()) {
-            return;
-          }
           bodyDone = true;
           callback();
           if ($doc.removeEventListener) {
-            $doc.removeEventListener($intern_18, checkBodyDone, false);
+            $doc.removeEventListener($intern_18, onBodyDone, false);
           }
           if (onBodyDoneTimerId) {
             clearInterval(onBodyDoneTimerId);
@@ -110,10 +107,12 @@ function widges_Widg(){
       }
 
       if ($doc.addEventListener) {
-        $doc.addEventListener($intern_18, checkBodyDone, false);
+        $doc.addEventListener($intern_18, onBodyDone, false);
       }
       var onBodyDoneTimerId = setInterval(function(){
-        checkBodyDone();
+        if (isBodyLoaded()) {
+          onBodyDone();
+        }
       }
       , $intern_19);
     }
@@ -350,22 +349,22 @@ function widges_Widg(){
       strongName = $intern_55;
       var idx = strongName.indexOf($intern_56);
       if (idx != -1) {
-        softPermutationId = parseInt(strongName.substring(idx + $intern_8), $intern_19);
+        softPermutationId = parseInt(strongName.substring(idx + $intern_8), $intern_57);
         strongName = strongName.substring($intern_7, idx);
       }
     }
      catch (e) {
     }
     widges_Widg.__softPermutationId = softPermutationId;
-    return computeUrlForResource(strongName + $intern_57);
+    return computeUrlForResource(strongName + $intern_58);
   }
 
   function loadExternalStylesheets(){
     if (!$wnd.__gwt_stylesLoaded) {
       $wnd.__gwt_stylesLoaded = {};
     }
-    sendStats($intern_58, $intern_1);
-    sendStats($intern_58, $intern_59);
+    sendStats($intern_59, $intern_1);
+    sendStats($intern_59, $intern_60);
   }
 
   processMetas();
@@ -373,10 +372,10 @@ function widges_Widg(){
   activeModules[$intern_4].moduleBase = widges_Widg.__moduleBase;
   var filename = getCompiledCodeFilename();
   if ($wnd) {
-    var devModePermitted = !!($wnd.location.protocol == $intern_60 || $wnd.location.protocol == $intern_61);
+    var devModePermitted = !!($wnd.location.protocol == $intern_61 || $wnd.location.protocol == $intern_62);
     $wnd.__gwt_activeModules[$intern_4].canRedirect = devModePermitted;
     function supportsSessionStorage(){
-      var key = $intern_62;
+      var key = $intern_63;
       try {
         $wnd.sessionStorage.setItem(key, key);
         $wnd.sessionStorage.removeItem(key);
@@ -388,27 +387,27 @@ function widges_Widg(){
     }
 
     if (devModePermitted && supportsSessionStorage()) {
-      var devModeKey = $intern_63;
+      var devModeKey = $intern_64;
       var devModeUrl = $wnd.sessionStorage[devModeKey];
       if (!/^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?\/.*$/.test(devModeUrl)) {
         if (devModeUrl && (window.console && console.log)) {
-          console.log($intern_64 + devModeUrl);
+          console.log($intern_65 + devModeUrl);
         }
         devModeUrl = $intern_15;
       }
       if (devModeUrl && !$wnd[devModeKey]) {
         $wnd[devModeKey] = true;
-        $wnd[devModeKey + $intern_65] = computeScriptBase();
+        $wnd[devModeKey + $intern_66] = computeScriptBase();
         var devModeScript = $doc.createElement($intern_20);
         devModeScript.src = devModeUrl;
-        var head = $doc.getElementsByTagName($intern_66)[$intern_7];
+        var head = $doc.getElementsByTagName($intern_67)[$intern_7];
         head.insertBefore(devModeScript, head.firstElementChild || head.children[$intern_7]);
         return false;
       }
     }
   }
   loadExternalStylesheets();
-  sendStats($intern_0, $intern_59);
+  sendStats($intern_0, $intern_60);
   installScript(filename);
   return true;
 }

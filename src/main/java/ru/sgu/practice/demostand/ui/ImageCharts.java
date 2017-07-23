@@ -6,66 +6,70 @@ package ru.sgu.practice.demostand.ui;
 
 import java.io.RandomAccessFile;
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.LocalDate;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.util.Date;
+import java.util.Locale;
 
 import com.vaadin.addon.charts.Chart;
-import com.vaadin.addon.charts.model.AxisTitle;
-import com.vaadin.addon.charts.model.AxisType;
-import com.vaadin.addon.charts.model.ChartType;
-import com.vaadin.addon.charts.model.Configuration;
-import com.vaadin.addon.charts.model.DataSeries;
-import com.vaadin.addon.charts.model.DataSeriesItem;
-import com.vaadin.addon.charts.model.DateTimeLabelFormats;
-import com.vaadin.addon.charts.model.PlotOptionsSpline;
-import com.vaadin.addon.charts.model.YAxis;
-import com.vaadin.ui.Component;
+import com.vaadin.addon.charts.model.*;
 
 
 public class ImageCharts {
-    public Component getChart(String title, String axisX, String axisY, String data) {
+    public Chart getChart(String title, int number) {
 
         Chart chart = new Chart();
-        chart.setHeight("450px");
-        chart.setWidth("600px");
+        chart.setHeight("500px");
+        chart.setWidth("500px");
 
         Configuration configuration = chart.getConfiguration();
         configuration.getChart().setType(ChartType.SPLINE);
 
+        configuration.getTooltip().setFormatter("'<br/>\'+ Highcharts.dateFormat('%e.%m %H:%M', this.x) +': <b>'+ this.y +'°C</b>'");
+
         configuration.getTitle().setText(title);
 
-        configuration.getTooltip().setFormatter("");
-
         configuration.getxAxis().setType(AxisType.DATETIME);
-        configuration.getxAxis().setDateTimeLabelFormats(
-                new DateTimeLabelFormats("%e. %b", "%b"));
+        configuration.getxAxis().setDateTimeLabelFormats(new DateTimeLabelFormats("%d.%m", "%b"));
+        configuration.getxAxis().getDateTimeLabelFormats().setDay("%d.%m %H:%M");
+        configuration.getxAxis().getDateTimeLabelFormats().setMinute("%d.%m %H:%M");
+        configuration.getxAxis().getDateTimeLabelFormats().setHour("%d.%m %H:%M");
+        configuration.getxAxis().setTickPixelInterval(60);
 
         YAxis yAxis = configuration.getyAxis();
-        yAxis.setTitle(new AxisTitle(axisY));
+        yAxis.setTitle("");
         yAxis.setMin(0);
 
-       // configuration
-        //        .getTooltip()
-        //        .setFormatter(
-        //                "'<b>'+ this.series.name +'</b><br/>\'+ Highcharts.dateFormat('%e. %b', this.x) +': '+ this.y +' m'");
+        Legend legend = new Legend();
+        legend.setEnabled(false);
+        configuration.setLegend(legend);
+        Marker marker = new Marker();
+        marker.setEnabled(false);
 
         DataSeries ls = new DataSeries();
         ls.setPlotOptions(new PlotOptionsSpline());
-        ls.setName(axisX);
 
-        Object[][] data1 = getData1(data);
+        Object[][] data1;
+
+        switch (number){
+            case 0:
+               data1  = getData0();
+               break;
+            case 1:
+                data1  = getData1();
+                break;
+            case 2:
+                data1  = getData2();
+                break;
+            default:
+                data1 = getData0();
+                break;
+        }
+
         for (int i = 0; i < data1.length; i++) {
             Object[] ds = data1[i];
             DataSeriesItem item = new DataSeriesItem((Instant) ds[0],
                     (Double) ds[1]);
+            item.setMarker(marker);
             ls.add(item);
         }
-
-        DataSeriesItem dat = new DataSeriesItem();
 
         configuration.addSeries(ls);
 
@@ -74,43 +78,69 @@ public class ImageCharts {
         return chart;
     }
 
-    private Object[][] getData1(String data) {
-        Object [][]objects = new Object[GlobalVariables.j][2];
+    private Object[][] getData0() {
+        Object [][]objects;
         try {
-           // RandomAccessFile dat = new RandomAccessFile(data, "rw");
-            //int length = GlobalVariables.j;
-            for (int i = 0; i < GlobalVariables.j; i++) {
-                objects[i][0] = GlobalVariables.inst[i];
-                objects[i][1] = GlobalVariables.values[i];
+            RandomAccessFile var = new RandomAccessFile("src\\main\\webapp\\resources\\var.kotel", "r");
+            RandomAccessFile date = new RandomAccessFile("src\\main\\webapp\\resources\\date.kotel", "r");
+            RandomAccessFile home = new RandomAccessFile("src\\main\\webapp\\resources\\home.kotel", "r");
+            int n = var.readInt();
+            objects = new Object[n][2];
+            for (int i = 0; i < n; i++){
+                objects[i][0] = Instant.ofEpochSecond(date.readLong());
+                objects[i][1] = home.readDouble();
             }
-        }catch (Exception e){}
+
+            var.close();
+            date.close();
+            home.close();
+        } catch (Exception e) {
+            objects = new Object[0][0];
+        }
         return objects;
     }
 
-    private final DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy,MM,dd");
-
-    /**
-     * Helper method to convert Date string YYYY,MM,dd to Date
-     *
-     * @param dateString
-     * @return
-     */
-    /**
-     * Helper method to convert Date string YYYY,MM,dd to Date
-     *
-     * @param stringFormat
-     * @return
-     */
-    private Instant d(String stringFormat) {
-        LocalDateTime date;
+    private Object[][] getData1() {
+        Object [][]objects;
         try {
-            date = LocalDateTime.parse(stringFormat, df);
-        } catch (DateTimeParseException e) {
-            throw new RuntimeException(e);
+            RandomAccessFile var = new RandomAccessFile("src\\main\\webapp\\resources\\var.kotel", "r");
+            RandomAccessFile date = new RandomAccessFile("src\\main\\webapp\\resources\\date.kotel", "r");
+            RandomAccessFile out = new RandomAccessFile("src\\main\\webapp\\resources\\outdoors.kotel", "r");
+            int n = var.readInt();
+            objects = new Object[n][2];
+            for (int i = 0; i < n; i++){
+                objects[i][0] = Instant.ofEpochSecond(date.readLong());
+                objects[i][1] = out.readDouble();
+            }
+
+            var.close();
+            date.close();
+            out.close();
+        } catch (Exception e) {
+            objects = new Object[0][0];
         }
-        return date.toInstant(ZoneOffset.UTC);
-       // return date.atStartOfDay().toInstant(ZoneOffset.UTC);
+        return objects;
     }
 
+    private Object[][] getData2() {
+        Object [][]objects;
+        try {
+            RandomAccessFile var = new RandomAccessFile("src\\main\\webapp\\resources\\var.kotel", "r");
+            RandomAccessFile date = new RandomAccessFile("src\\main\\webapp\\resources\\date.kotel", "r");
+            RandomAccessFile kotel = new RandomAccessFile("src\\main\\webapp\\resources\\kotel.kotel", "r");
+            int n = var.readInt();
+            objects = new Object[n][2];
+            for (int i = 0; i < n; i++){
+                objects[i][0] = Instant.ofEpochSecond(date.readLong());
+                objects[i][1] = kotel.readDouble();
+            }
 
+            var.close();
+            date.close();
+            kotel.close();
+        } catch (Exception e) {
+            objects = new Object[0][0];
+        }
+        return objects;
+    }
 }

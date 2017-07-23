@@ -10,7 +10,6 @@ import ru.sgu.practice.demostand.ui.GlobalVariables;
 public class DemoStandApplication {
 
 	public static void main(String[] args) {
-		GlobalVariables.setVal();
 		SpringApplication.run(DemoStandApplication.class, args);
 	}
 }
