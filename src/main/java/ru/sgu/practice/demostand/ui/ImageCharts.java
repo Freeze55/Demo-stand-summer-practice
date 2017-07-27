@@ -6,7 +6,6 @@ package ru.sgu.practice.demostand.ui;
 
 import java.io.RandomAccessFile;
 import java.time.Instant;
-import java.util.Locale;
 
 import com.vaadin.addon.charts.Chart;
 import com.vaadin.addon.charts.model.*;

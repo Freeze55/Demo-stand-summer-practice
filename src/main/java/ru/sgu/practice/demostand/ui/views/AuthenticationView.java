@@ -1,5 +1,7 @@
 package ru.sgu.practice.demostand.ui.views;
 
+import com.vaadin.event.ShortcutAction;
+import com.vaadin.event.ShortcutListener;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.VaadinSession;
@@ -38,6 +40,14 @@ public class AuthenticationView  extends VerticalLayout implements View{
                 }else{
                     Notification.show("Неправильный логин/пароль!", Notification.Type.ERROR_MESSAGE);
                 }
+            }
+        });
+
+        password.addShortcutListener(new ShortcutListener("Execute",
+                ShortcutAction.KeyCode.ENTER, null) {
+            @Override
+            public void handleAction(Object sender, Object target) {
+                send.click();
             }
         });
 

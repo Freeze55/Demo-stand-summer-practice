@@ -1,6 +1,8 @@
 package ru.sgu.practice.demostand.ui.views;
 
 import com.vaadin.addon.charts.Chart;
+import com.vaadin.event.ShortcutAction;
+import com.vaadin.event.ShortcutListener;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.FileResource;
@@ -28,6 +30,7 @@ import java.util.Locale;
  */
 public class ContentView  extends VerticalLayout implements View {
     public static final String NAME = "hello";
+
     public ContentView(){
         String basepath = VaadinService.getCurrent()
                 .getBaseDirectory().getAbsolutePath();
@@ -93,7 +96,15 @@ public class ContentView  extends VerticalLayout implements View {
         TextField input = new TextField();
         input.setCaption("Введите новое значение температуры:");
 
+
         Button button = new Button("Отправить");
+        input.addShortcutListener(new ShortcutListener("Execute",
+                ShortcutAction.KeyCode.ENTER, null) {
+            @Override
+            public void handleAction(Object sender, Object target) {
+                button.click();
+            }
+        });
 
         CheckBox checkBox = new CheckBox("Установить на определенную дату", false);
 
@@ -204,21 +215,32 @@ public class ContentView  extends VerticalLayout implements View {
             }catch (NumberFormatException e1){
                 testValue = false;
             }
-            if (testValue) {
-                if (MainUI.COMMUNIC.communicate(input.getValue(), checkBox.getValue(), dateTimeField.getValue().toEpochSecond(ZoneOffset.UTC)) == 0) {
-                    MainUI.getCurrent().getNavigator().navigateTo(ContentView.NAME);
-                    test = true;
-                }
-                else {
-                    s = "Нет соединения с сервером, повторите попытку позже.";
-                    s1 = "140";
-                    test = false;
-                }
-            }
-            else{
-                s = "Неверный формат данных. В поле должно быть записано число, целая часть отделяется от дробной точкой.";
-                s1 = "190";
+            double value = Double.parseDouble(input.getValue());
+            if (10 > value || value > 50) {
+                s = "Введено неправильное значение. Температура должна быть между 10°C и 50°C.";
+                s1 = "160";
                 test = false;
+            } else {
+                if (checkBox.getValue() && dateTimeField.getValue().toEpochSecond(ZoneOffset.UTC) < LocalDateTime.now(ZoneId.systemDefault()).toEpochSecond(ZoneOffset.UTC)){
+                    s = "Выбранная дата меньше текущей. Выберите другую дату.";
+                    s1 = "160";
+                    test = false;
+                } else {
+                    if (testValue) {
+                        if (MainUI.COMMUNIC.communicate(value, checkBox.getValue(), dateTimeField.getValue().toEpochSecond(ZoneOffset.UTC)) == 0) {
+                            MainUI.getCurrent().getNavigator().navigateTo(ContentView.NAME);
+                            test = true;
+                        } else {
+                            s = "Нет соединения с сервером, повторите попытку позже.";
+                            s1 = "140";
+                            test = false;
+                        }
+                    } else {
+                        s = "Неверный формат данных. В поле должно быть записано число, целая часть отделяется от дробной точкой.";
+                        s1 = "190";
+                        test = false;
+                    }
+                }
             }
             if (!test){
                 newWindow(s, s1);
