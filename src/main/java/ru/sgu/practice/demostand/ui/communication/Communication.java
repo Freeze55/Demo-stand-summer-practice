@@ -16,25 +16,22 @@ public class Communication {
 
     public int communicate(double value, Boolean flag, long seconds) {
         try {
-            int number = Double.toString(value).length();
-            if (number > 5) {
-                value = Math.rint(100.0 * value) / 100.0;
-                number = 5;
-            }
             Socket connection = new Socket(InetAddress.getByName("0.0.0.0"), 5678);
             OutputStream outputStream = connection.getOutputStream();
             InputStream inputStream = connection.getInputStream();
 
             if (flag == true) {
-                outputStream.write("2".getBytes());
-                outputStream.write(Integer.toString(number).getBytes());
-                outputStream.write(Double.toString(value).getBytes());
+                outputStream.write(Byte.parseByte("2"));
+                int x = (int)(value*100);
+                outputStream.write(Byte.parseByte(Integer.toString(x/100)));
+                outputStream.write(Byte.parseByte(Integer.toString(x%100)));
                 outputStream.write(Long.toString(seconds).getBytes());
 
             } else {
-                outputStream.write("1".getBytes());
-                outputStream.write(Integer.toString(number).getBytes());
-                outputStream.write(Double.toString(value).getBytes());
+                outputStream.write(Byte.parseByte("1"));
+                int x = (int)(value*100);
+                outputStream.write(Byte.parseByte(Integer.toString(x/100)));
+                outputStream.write(Byte.parseByte(Integer.toString(x%100)));
 
             }
             outputStream.flush();
