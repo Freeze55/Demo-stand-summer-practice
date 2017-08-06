@@ -34,7 +34,7 @@ public class ImageCharts {
 
         YAxis yAxis = configuration.getyAxis();
         yAxis.setTitle("");
-        yAxis.setMin(0);
+        //yAxis.setMin(-100);
 
         Legend legend = new Legend();
         legend.setEnabled(false);

@@ -32,9 +32,11 @@ public class ContentView  extends VerticalLayout implements View {
     public static final String NAME = "hello";
 
     public ContentView(){
+
+
         String basepath = VaadinService.getCurrent()
                 .getBaseDirectory().getAbsolutePath();
-        Page.getCurrent().setTitle("Не главная страница");
+        Page.getCurrent().setTitle("Данные");
         Page.Styles styles = Page.getCurrent().getStyles();
         HorizontalLayout layoutRoot = new HorizontalLayout();
         VerticalLayout layout = new VerticalLayout();
@@ -174,6 +176,7 @@ public class ContentView  extends VerticalLayout implements View {
         Chart chartHome = new ImageCharts().getChart("В доме, °C", 0);
         Chart chartOutdoors = new ImageCharts().getChart("На улице, °C", 1);
         Chart chartKotel = new ImageCharts().getChart("Вода в котле, °C", 2);
+
         Button buttonHome = new Button("Увеличить");
         Button buttonOutdoors = new Button("Увеличить");
         Button buttonKotel = new Button("Увеличить");
@@ -215,6 +218,7 @@ public class ContentView  extends VerticalLayout implements View {
             }catch (NumberFormatException e1){
                 testValue = false;
             }
+            if (testValue) {
             double value = Double.parseDouble(input.getValue());
             if (10 > value || value > 50) {
                 s = "Введено неправильное значение. Температура должна быть между 10°C и 50°C.";
@@ -226,7 +230,7 @@ public class ContentView  extends VerticalLayout implements View {
                     s1 = "160";
                     test = false;
                 } else {
-                    if (testValue) {
+                   // if (testValue) {
                         if (MainUI.COMMUNIC.communicate(value, checkBox.getValue(), dateTimeField.getValue().toEpochSecond(ZoneOffset.UTC)) == 0) {
                             MainUI.getCurrent().getNavigator().navigateTo(ContentView.NAME);
                             test = true;
@@ -235,12 +239,12 @@ public class ContentView  extends VerticalLayout implements View {
                             s1 = "140";
                             test = false;
                         }
-                    } else {
+                    }}} else {
                         s = "Неверный формат данных. В поле должно быть записано число, целая часть отделяется от дробной точкой.";
                         s1 = "190";
                         test = false;
-                    }
-                }
+              //      }
+             //   }
             }
             if (!test){
                 newWindow(s, s1);
