@@ -15,7 +15,7 @@ import ru.sgu.practice.demostand.ui.views.ContentView;
 /**
  * Created by admin on 10.07.2017.
  */
-@SpringUI(path = "myWeb")
+@SpringUI
 @Widgetset("widges.Widg")
 @Theme("valo")
 @Title("Главная страница")
