@@ -24,3 +24,5 @@ nbdist/
 .nb-gradle/
 src/main/webapp/resources/date.kotel
 *.kotel
+*.kotel
+src/main/webapp/resources/var.kotel

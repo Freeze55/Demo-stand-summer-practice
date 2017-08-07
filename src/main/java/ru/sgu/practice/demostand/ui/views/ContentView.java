@@ -197,12 +197,24 @@ public class ContentView  extends VerticalLayout implements View {
 
         styles.add(".forContent {background: #ffffff; margin: 10px; border: outset 8px; border-radius: 6px}");
         layout.addStyleName("forContent");
+<<<<<<< HEAD
         //layout.setWidth("1000");
+=======
+        layout.setWidth("1000");
+>>>>>>> origin/master
 
         Image kot0 = new Image(null, new FileResource(new File(basepath + "\\resources\\kot0.png")));
         Image kot1 = new Image(null, new FileResource(new File(basepath + "\\resources\\kot1.png")));
         kot0.setWidth("100");
         kot1.setWidth("100");
+<<<<<<< HEAD
+=======
+       // layoutRoot.addComponents(kot0, layout, kot1);
+        //layoutRoot.setComponentAlignment(kot0, Alignment.MIDDLE_LEFT);
+        //layoutRoot.setComponentAlignment(layout, Alignment.MIDDLE_CENTER);
+        //layoutRoot.setComponentAlignment(kot1, Alignment.MIDDLE_RIGHT);
+        //addComponent(layoutRoot);
+>>>>>>> origin/master
         addComponent(layout);
         setComponentAlignment(layout, Alignment.MIDDLE_CENTER);
 
@@ -227,7 +239,6 @@ public class ContentView  extends VerticalLayout implements View {
                     s1 = "160";
                     test = false;
                 } else {
-                   // if (testValue) {
                         if (MainUI.COMMUNIC.communicate(value, checkBox.getValue(), dateTimeField.getValue().toEpochSecond(ZoneOffset.UTC)) == 0) {
                             MainUI.getCurrent().getNavigator().navigateTo(ContentView.NAME);
                             test = true;
@@ -240,8 +251,6 @@ public class ContentView  extends VerticalLayout implements View {
                         s = "Неверный формат данных. В поле должно быть записано число, целая часть отделяется от дробной точкой.";
                         s1 = "190";
                         test = false;
-              //      }
-             //   }
             }
             if (!test){
                 newWindow(s, s1);
