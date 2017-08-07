@@ -32,25 +32,17 @@ public class ContentView  extends VerticalLayout implements View {
     public static final String NAME = "hello";
 
     public ContentView(){
-
-
         String basepath = VaadinService.getCurrent()
                 .getBaseDirectory().getAbsolutePath();
         Page.getCurrent().setTitle("Данные");
         Page.Styles styles = Page.getCurrent().getStyles();
-        HorizontalLayout layoutRoot = new HorizontalLayout();
         VerticalLayout layout = new VerticalLayout();
-        HorizontalLayout layoutUp = new HorizontalLayout();
         HorizontalLayout horLay = new HorizontalLayout();
         HorizontalLayout layoutData = new HorizontalLayout();
-        VerticalLayout vertical0 = new VerticalLayout();
-        VerticalLayout vertical1 = new VerticalLayout();
-
         VerticalLayout verticalLayout = new VerticalLayout();
 
         InlineDateTimeField dateTimeField = new InlineDateTimeField();
         dateTimeField.setValue(LocalDateTime.now(ZoneId.systemDefault()));
-
 
         int temp;
         try {
@@ -98,7 +90,6 @@ public class ContentView  extends VerticalLayout implements View {
         TextField input = new TextField();
         input.setCaption("Введите новое значение температуры:");
 
-
         Button button = new Button("Отправить");
         input.addShortcutListener(new ShortcutListener("Execute",
                 ShortcutAction.KeyCode.ENTER, null) {
@@ -110,24 +101,11 @@ public class ContentView  extends VerticalLayout implements View {
 
         CheckBox checkBox = new CheckBox("Установить на определенную дату", false);
 
-
         layoutData.addComponents(input, button);
 
-        vertical0.addComponents(horLay, verticalLayout);
-        vertical0.setComponentAlignment(horLay, Alignment.MIDDLE_CENTER);
-        vertical0.setComponentAlignment(verticalLayout, Alignment.MIDDLE_CENTER);
-        VerticalLayout calendar = new VerticalLayout();
-        calendar.addComponent(dateTimeField);
-        vertical1.addComponents(layoutData, checkBox, calendar);
-        vertical1.setComponentAlignment(calendar, Alignment.BOTTOM_CENTER);
-        layoutUp.addComponents(vertical0, vertical1);
         layoutData.setComponentAlignment(button, Alignment.BOTTOM_LEFT);
         styles.add(".forButton {margin-left: -50px;}");
         button.addStyleName("forButton");
-        styles.add(".forCalendar {margin-top: 50px;}");
-        calendar.addStyleName("forCalendar");;
-
-        layout.addComponents(layoutUp);
 
         styles.add(".forAction{background: #fafafa url(/resources/shadow0.png) no-repeat 100% 100%; padding: 10px; width: 300px; font-size: 13px; font-style: italic;}");
         styles.add(".forP{margin:-15px -15px;}");
@@ -163,58 +141,53 @@ public class ContentView  extends VerticalLayout implements View {
         } catch (Exception e) {
         }
         verticalLayout.addStyleName("forAction");
+        verticalLayout.setWidth("300px");
 
         dateTimeField.setLocale(Locale.getDefault());
         dateTimeField.setResolution(DateTimeResolution.MINUTE);
         dateTimeField.setVisible(false);
         dateTimeField.setCaption("Выберите дату и время");
 
-        VerticalLayout layoutCharts = new VerticalLayout();
-
         Chart chartHome = new ImageCharts().getChart("В доме, °C", 0);
         Chart chartOutdoors = new ImageCharts().getChart("На улице, °C", 1);
         Chart chartKotel = new ImageCharts().getChart("Вода в котле, °C", 2);
-
         Button buttonHome = new Button("Увеличить");
         Button buttonOutdoors = new Button("Увеличить");
         Button buttonKotel = new Button("Увеличить");
+        layout.addComponents(horLay, layoutData, checkBox, dateTimeField, verticalLayout);
+        int width = Page.getCurrent().getBrowserWindowWidth();
+        if (width < 1550){
+            layout.addComponents(chartHome, buttonHome, chartOutdoors, buttonOutdoors, chartKotel, buttonKotel);
+            layout.setComponentAlignment(chartHome, Alignment.TOP_CENTER);
+            layout.setComponentAlignment(chartKotel, Alignment.TOP_CENTER);
+            layout.setComponentAlignment(chartOutdoors, Alignment.TOP_CENTER);
+            layout.setComponentAlignment(buttonHome, Alignment.TOP_CENTER);
+            layout.setComponentAlignment(buttonOutdoors, Alignment.TOP_CENTER);
+            layout.setComponentAlignment(buttonKotel, Alignment.TOP_CENTER);
+        }
+        else{
+            GridLayout layoutCharts = new GridLayout(3, 2);
+            layoutCharts.addComponents(chartHome, chartOutdoors, chartKotel, buttonHome, buttonOutdoors, buttonKotel);
+            layoutCharts.setComponentAlignment(buttonHome, Alignment.TOP_CENTER);
+            layoutCharts.setComponentAlignment(buttonOutdoors, Alignment.TOP_CENTER);
+            layoutCharts.setComponentAlignment(buttonKotel, Alignment.TOP_CENTER);
+            layout.addComponent(layoutCharts);
+            layout.setComponentAlignment(layoutCharts, Alignment.MIDDLE_CENTER);
+            styles.add(".forChart {margin: 50px 0px 0px;}");
+            layoutCharts.addStyleName("forChart");
 
-        layoutCharts.addComponents(chartHome, buttonHome, chartOutdoors, buttonOutdoors, chartKotel, buttonKotel);
-        layoutCharts.setComponentAlignment(chartHome, Alignment.TOP_CENTER);
-        layoutCharts.setComponentAlignment(chartKotel, Alignment.TOP_CENTER);
-        layoutCharts.setComponentAlignment(chartOutdoors, Alignment.TOP_CENTER);
-        layoutCharts.setComponentAlignment(buttonHome, Alignment.TOP_CENTER);
-        layoutCharts.setComponentAlignment(buttonOutdoors, Alignment.TOP_CENTER);
-        layoutCharts.setComponentAlignment(buttonKotel, Alignment.TOP_CENTER);
+        }
 
-        layout.addComponent(layoutCharts);
-        styles.add(".forChart {margin: 50px 0px 0px;}");
-        layoutCharts.addStyleName("forChart");
+        layout.setComponentAlignment(horLay, Alignment.TOP_CENTER);
+        layout.setComponentAlignment(layoutData, Alignment.TOP_CENTER);
+        layout.setComponentAlignment(checkBox, Alignment.TOP_CENTER);
+        layout.setComponentAlignment(dateTimeField, Alignment.TOP_CENTER);
+        layout.setComponentAlignment(verticalLayout, Alignment.TOP_CENTER);
 
-
-        layout.setComponentAlignment(layoutUp, Alignment.MIDDLE_CENTER);
-        layout.setComponentAlignment(layoutCharts, Alignment.MIDDLE_CENTER);
 
         styles.add(".forContent {background: #ffffff; margin: 10px; border: outset 8px; border-radius: 6px}");
         layout.addStyleName("forContent");
-<<<<<<< HEAD
-        //layout.setWidth("1000");
-=======
-        layout.setWidth("1000");
->>>>>>> origin/master
 
-        Image kot0 = new Image(null, new FileResource(new File(basepath + "\\resources\\kot0.png")));
-        Image kot1 = new Image(null, new FileResource(new File(basepath + "\\resources\\kot1.png")));
-        kot0.setWidth("100");
-        kot1.setWidth("100");
-<<<<<<< HEAD
-=======
-       // layoutRoot.addComponents(kot0, layout, kot1);
-        //layoutRoot.setComponentAlignment(kot0, Alignment.MIDDLE_LEFT);
-        //layoutRoot.setComponentAlignment(layout, Alignment.MIDDLE_CENTER);
-        //layoutRoot.setComponentAlignment(kot1, Alignment.MIDDLE_RIGHT);
-        //addComponent(layoutRoot);
->>>>>>> origin/master
         addComponent(layout);
         setComponentAlignment(layout, Alignment.MIDDLE_CENTER);
 
@@ -222,23 +195,23 @@ public class ContentView  extends VerticalLayout implements View {
             boolean test, testValue;
             String s = "", s1 = "";
             try{
-            Double.parseDouble(input.getValue());
-            testValue = true;
+                Double.parseDouble(input.getValue());
+                testValue = true;
             }catch (NumberFormatException e1){
                 testValue = false;
             }
             if (testValue) {
-            double value = Double.parseDouble(input.getValue());
-            if (10 > value || value > 50) {
-                s = "Введено неправильное значение. Температура должна быть между 10°C и 50°C.";
-                s1 = "160";
-                test = false;
-            } else {
-                if (checkBox.getValue() && dateTimeField.getValue().toEpochSecond(ZoneOffset.UTC) < LocalDateTime.now(ZoneId.systemDefault()).toEpochSecond(ZoneOffset.UTC)){
-                    s = "Выбранная дата меньше текущей. Выберите другую дату.";
+                double value = Double.parseDouble(input.getValue());
+                if (10 > value || value > 50) {
+                    s = "Введено неправильное значение. Температура должна быть между 10°C и 50°C.";
                     s1 = "160";
                     test = false;
                 } else {
+                    if (checkBox.getValue() && dateTimeField.getValue().toEpochSecond(ZoneOffset.UTC) < LocalDateTime.now(ZoneId.systemDefault()).toEpochSecond(ZoneOffset.UTC)){
+                        s = "Выбранная дата меньше текущей. Выберите другую дату.";
+                        s1 = "160";
+                        test = false;
+                    } else {
                         if (MainUI.COMMUNIC.communicate(value, checkBox.getValue(), dateTimeField.getValue().toEpochSecond(ZoneOffset.UTC)) == 0) {
                             MainUI.getCurrent().getNavigator().navigateTo(ContentView.NAME);
                             test = true;
@@ -248,9 +221,9 @@ public class ContentView  extends VerticalLayout implements View {
                             test = false;
                         }
                     }}} else {
-                        s = "Неверный формат данных. В поле должно быть записано число, целая часть отделяется от дробной точкой.";
-                        s1 = "190";
-                        test = false;
+                s = "Неверный формат данных. В поле должно быть записано число, целая часть отделяется от дробной точкой.";
+                s1 = "190";
+                test = false;
             }
             if (!test){
                 newWindow(s, s1);
@@ -315,8 +288,8 @@ public class ContentView  extends VerticalLayout implements View {
                 dateTimeField.setVisible(false);
             }
         });
-
     }
+
 
 
     private void newWindow(String name, String height){
