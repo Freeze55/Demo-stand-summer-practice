@@ -92,7 +92,7 @@ public class ContentView  extends VerticalLayout implements View {
 
         horLay.addComponents(one, space, two, point, three, space1, four, grad);
         horLay.setSpacing(false);
-        styles.add(".forTemperature {border: groove 10px black; border-radius: 15px; margin-right: 100px;}");
+        styles.add(".forTemperature {border: groove 10px black; border-radius: 15px;}");
         horLay.addStyleName("forTemperature");
 
         TextField input = new TextField();
@@ -125,9 +125,7 @@ public class ContentView  extends VerticalLayout implements View {
         styles.add(".forButton {margin-left: -50px;}");
         button.addStyleName("forButton");
         styles.add(".forCalendar {margin-top: 50px;}");
-        calendar.addStyleName("forCalendar");
-        styles.add(".forVertical0 {margin-right: 120px;}");
-        vertical0.addStyleName("forVertical0");
+        calendar.addStyleName("forCalendar");;
 
         layout.addComponents(layoutUp);
 
@@ -171,7 +169,7 @@ public class ContentView  extends VerticalLayout implements View {
         dateTimeField.setVisible(false);
         dateTimeField.setCaption("Выберите дату и время");
 
-        GridLayout layoutCharts = new GridLayout(3, 2);
+        VerticalLayout layoutCharts = new VerticalLayout();
 
         Chart chartHome = new ImageCharts().getChart("В доме, °C", 0);
         Chart chartOutdoors = new ImageCharts().getChart("На улице, °C", 1);
@@ -181,7 +179,10 @@ public class ContentView  extends VerticalLayout implements View {
         Button buttonOutdoors = new Button("Увеличить");
         Button buttonKotel = new Button("Увеличить");
 
-        layoutCharts.addComponents(chartHome, chartOutdoors, chartKotel, buttonHome, buttonOutdoors, buttonKotel);
+        layoutCharts.addComponents(chartHome, buttonHome, chartOutdoors, buttonOutdoors, chartKotel, buttonKotel);
+        layoutCharts.setComponentAlignment(chartHome, Alignment.TOP_CENTER);
+        layoutCharts.setComponentAlignment(chartKotel, Alignment.TOP_CENTER);
+        layoutCharts.setComponentAlignment(chartOutdoors, Alignment.TOP_CENTER);
         layoutCharts.setComponentAlignment(buttonHome, Alignment.TOP_CENTER);
         layoutCharts.setComponentAlignment(buttonOutdoors, Alignment.TOP_CENTER);
         layoutCharts.setComponentAlignment(buttonKotel, Alignment.TOP_CENTER);
@@ -196,18 +197,19 @@ public class ContentView  extends VerticalLayout implements View {
 
         styles.add(".forContent {background: #ffffff; margin: 10px; border: outset 8px; border-radius: 6px}");
         layout.addStyleName("forContent");
-        layout.setWidth("1600");
+        layout.setWidth("1000");
 
         Image kot0 = new Image(null, new FileResource(new File(basepath + "\\resources\\kot0.png")));
         Image kot1 = new Image(null, new FileResource(new File(basepath + "\\resources\\kot1.png")));
         kot0.setWidth("100");
         kot1.setWidth("100");
-        layoutRoot.addComponents(kot0, layout, kot1);
-        layoutRoot.setComponentAlignment(kot0, Alignment.MIDDLE_LEFT);
-        layoutRoot.setComponentAlignment(layout, Alignment.MIDDLE_CENTER);
-        layoutRoot.setComponentAlignment(kot1, Alignment.MIDDLE_RIGHT);
-        addComponent(layoutRoot);
-        setComponentAlignment(layoutRoot, Alignment.MIDDLE_CENTER);
+       // layoutRoot.addComponents(kot0, layout, kot1);
+        //layoutRoot.setComponentAlignment(kot0, Alignment.MIDDLE_LEFT);
+        //layoutRoot.setComponentAlignment(layout, Alignment.MIDDLE_CENTER);
+        //layoutRoot.setComponentAlignment(kot1, Alignment.MIDDLE_RIGHT);
+        //addComponent(layoutRoot);
+        addComponent(layout);
+        setComponentAlignment(layout, Alignment.MIDDLE_CENTER);
 
         button.addClickListener( e -> {
             boolean test, testValue;
@@ -230,7 +232,6 @@ public class ContentView  extends VerticalLayout implements View {
                     s1 = "160";
                     test = false;
                 } else {
-                   // if (testValue) {
                         if (MainUI.COMMUNIC.communicate(value, checkBox.getValue(), dateTimeField.getValue().toEpochSecond(ZoneOffset.UTC)) == 0) {
                             MainUI.getCurrent().getNavigator().navigateTo(ContentView.NAME);
                             test = true;
@@ -243,8 +244,6 @@ public class ContentView  extends VerticalLayout implements View {
                         s = "Неверный формат данных. В поле должно быть записано число, целая часть отделяется от дробной точкой.";
                         s1 = "190";
                         test = false;
-              //      }
-             //   }
             }
             if (!test){
                 newWindow(s, s1);
